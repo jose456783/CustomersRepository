@@ -7,6 +7,7 @@ namespace customers1.entities
         public int Id { get; set; }
         public string ExternalId { get; set; }
         public string Name { get; set; }
+        public string Email { get; set; }
         public string Document { get; set; }
         public string DocumentType { get; set; }
 
@@ -17,6 +18,7 @@ namespace customers1.entities
             Name = request.Name;
             Document = request.Document;
             DocumentType = request.DocumentType;
+            Email = request.Email;
 
         }
 
