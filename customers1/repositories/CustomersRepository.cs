@@ -1,5 +1,6 @@
 ﻿using customers1.Data;
 using customers1.entities;
+using Microsoft.EntityFrameworkCore;
 using System.CodeDom;
 
 namespace customers1.repositories
@@ -20,7 +21,7 @@ namespace customers1.repositories
 
         public async Task<IEnumerable<Customer>> ObterTodosAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Customers.ToListAsync();
         }
     }
 }
