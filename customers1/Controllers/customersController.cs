@@ -29,5 +29,25 @@ namespace customers1.Controllers
             
             return Ok(customer);
         }
+        [HttpGet]
+        [Route("ObterTodos")]
+
+        public async Task<IActionResult> ObterTodos()
+        {
+            var customers = await _customersRepository.ObterTodosAsync();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var response = customers.Select(a => new CustomerResponse
+            {
+                Name = a.Name,
+                ExternallId = a.ExternalId,
+                Document = a.Document,
+                DocumentType = a.DocumentType
+            });
+            return Ok(response);
+
+        }
     }
 }
