@@ -17,7 +17,7 @@ namespace customers1.Controllers
         }
 
         [HttpPost]
-        public async Task <IActionResult> Criar(CustomerRequest request)
+        public async Task<IActionResult> Criar(CustomerRequest request)
         {
             if (!ModelState.IsValid)
             {
@@ -25,8 +25,8 @@ namespace customers1.Controllers
             }
 
             var customer = new Customer(request);
-           await _customersRepository.CriarAsync(customer);
-            
+            await _customersRepository.CriarAsync(customer);
+
             return Ok(customer);
         }
         [HttpGet]
@@ -47,6 +47,53 @@ namespace customers1.Controllers
                 DocumentType = a.DocumentType
             });
             return Ok(response);
+
+        }
+        [HttpGet("{id}")]
+        
+
+        public async Task<IActionResult> ObterPorIdAsync(int id)
+        {
+            var customer = await _customersRepository.ObterPorIdAsync(id);
+            if (customer == null)
+            {
+                return NotFound($"Usuário com o Id {id}, não encontrado.");
+            }
+            //var response = customer.Select(a => new CustomerResponse
+            //{
+            //    Name = a.Name,
+            //    ExternallId = a.ExternalId,
+            //    Document = a.Document,
+            //    DocumentType = a.DocumentType
+            //});
+
+            return Ok(customer);
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> AtualizarAsync(CustomerRequest customer, int id)
+        {
+            var customerExisting = new Customer(customer);
+            if (customerExisting == null)
+            {
+                return NotFound($"Usuário com o Id {id}, não encontrado.");
+            }
+            customerExisting.Name= customer.Name;
+            customerExisting.Document = customer.Document;
+            customerExisting.Email = customer.Email;
+
+            var response = new CustomerResponse
+            {
+                Name = customerExisting.Name,
+                Document = customerExisting.Document,
+                Email = customerExisting.Email
+
+
+               
+            };
+            
+
+            await _customersRepository.AtualizarAsync(customerExisting);
+            return Ok(customerExisting);
 
         }
     }
