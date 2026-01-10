@@ -14,8 +14,7 @@ Este projeto foi desenvolvido com foco em organização de código, clareza arqu
  SQL Server**
  Dependency Injection (DI)
  Repository Pattern
- Swagger (OpenAPI)
- Postman, para testes
+ Postman
 
 ---
 
