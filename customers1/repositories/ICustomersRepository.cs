@@ -8,6 +8,7 @@ namespace customers1.repositories
         Task<IEnumerable<Customer>> ObterTodosAsync();
         Task<Customer> ObterPorIdAsync(int id);
         Task AtualizarAsync(Customer customer);
+        Task DeletarAsync(Customer customer);
 
     }
 }

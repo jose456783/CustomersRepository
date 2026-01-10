@@ -27,6 +27,12 @@ namespace customers1.repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeletarAsync(Customer customer)
+        {
+            _context.Customers.Remove(customer);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<Customer> ObterPorIdAsync(int id)
         {
             return await _context.Customers.SingleOrDefaultAsync(u => u.Id == id);
