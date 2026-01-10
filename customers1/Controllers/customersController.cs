@@ -2,7 +2,7 @@
 using customers1.entities;
 using customers1.repositories;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Cryptography.X509Certificates;
+
 
 namespace customers1.Controllers
 {
@@ -23,11 +23,13 @@ namespace customers1.Controllers
             {
                 return BadRequest(ModelState);
             }
+            else
+            {
+                var customer = new Customer(request);
+                await _customersRepository.CriarAsync(customer);
 
-            var customer = new Customer(request);
-            await _customersRepository.CriarAsync(customer);
-
-            return Ok(customer);
+                return Ok(customer);
+            }
         }
         [HttpGet]
         [Route("ObterTodos")]
@@ -81,20 +83,33 @@ namespace customers1.Controllers
             customerExisting.Document = customer.Document;
             customerExisting.Email = customer.Email;
 
-            var response = new CustomerResponse
-            {
-                Name = customerExisting.Name,
-                Document = customerExisting.Document,
-                Email = customerExisting.Email
+            //var response = new CustomerResponse
+            //{
+            //    Name = customerExisting.Name,
+            //    Document = customerExisting.Document,
+            //    Email = customerExisting.Email
 
 
                
-            };
+            //};
             
 
             await _customersRepository.AtualizarAsync(customerExisting);
             return Ok(customerExisting);
 
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletarAsync( int id) 
+        {
+            var customerExisting = await _customersRepository.ObterPorIdAsync(id);
+            if (customerExisting == null)
+            {
+                return NotFound($"Usuário com o Id {id}, não encontrado.");
+            }
+            await _customersRepository.DeletarAsync(customerExisting);
+            
+            return Ok($"Anime com ID {id} foi deletado com sucesso.");
+        }
+
     }
 }
